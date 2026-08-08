@@ -1,0 +1,144 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg-dark: #0B3D2E;
+  --bg-secondary: #14532D;
+  --card-bg: #1B4332;
+  --border-color: #2E5A46;
+  --accent-yellow: #FFD23F;
+  --accent-gold: #E9B949;
+  --text-light: #FFFDF7;
+  --text-muted: #D6DCCF;
+}
+
+body {
+  background-color: var(--bg-dark);
+  color: var(--text-light);
+  font-family: 'Inter', sans-serif;
+  overflow-x: hidden;
+  selection-background-color: #FFD23F;
+  selection-color: #0B3D2E;
+}
+
+::selection {
+  background-color: #FFD23F;
+  color: #0B3D2E;
+}
+
+/* Custom Scrollbars */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0B3D2E;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #2E5A46;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #FFD23F;
+}
+
+/* react-easy-crop container containment */
+.react-easy-crop_container {
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  overflow: hidden !important;
+  user-select: none;
+  touch-action: none;
+  cursor: move;
+}
+
+.react-easy-crop_image,
+.react-easy-crop_crop-area {
+  position: absolute !important;
+  max-width: none !important;
+  max-height: none !important;
+}
+
+@layer utilities {
+  .glass-card {
+    background: rgba(27, 67, 50, 0.75);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(46, 90, 70, 0.6);
+  }
+
+  .glass-card-hover {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  .glass-card-hover:hover {
+    border-color: rgba(255, 210, 63, 0.6);
+    box-shadow: 0 0 25px -5px rgba(255, 210, 63, 0.25);
+    transform: translateY(-2px);
+  }
+
+  .glow-text-yellow {
+    text-shadow: 0 0 14px rgba(255, 210, 63, 0.5);
+  }
+
+  .editorial-gradient-text {
+    background: linear-gradient(135deg, #FFFDF7 0%, #FFD23F 60%, #E9B949 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  /* Official HHGoa Handcrafted Woven Pattern Button Border */
+  .hhgoa-woven-btn {
+    position: relative;
+    background-color: #FFD23F;
+    color: #0B3D2E !important;
+    font-family: var(--font-cormorant-garamond), serif;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    padding: 0.5rem 1.75rem;
+    border: 4px solid transparent;
+    border-image: repeating-linear-gradient(
+      45deg,
+      #FF007A,
+      #FF007A 6px,
+      #FFD23F 6px,
+      #FFD23F 12px,
+      #0B3D2E 12px,
+      #0B3D2E 18px,
+      #14532D 18px,
+      #14532D 24px
+    ) 8;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .hhgoa-woven-btn:hover {
+    transform: translateY(-2px) scale(1.02);
+    box-shadow: 0 6px 20px rgba(255, 210, 63, 0.4);
+  }
+
+  /* Official HHGoa Pink Devanagari Badge Overlay */
+  .devanagari-badge {
+    background-color: #FF007A;
+    color: #FFFDF7;
+    font-weight: 800;
+    padding: 0.2rem 0.8rem;
+    border-radius: 9999px;
+    box-shadow: 0 2px 10px rgba(255, 0, 122, 0.5);
+    transform: rotate(-4deg);
+    display: inline-block;
+  }
+
+  /* Paper & Topographic Texture */
+  .expedition-paper-texture {
+    background-image: radial-gradient(rgba(255, 210, 63, 0.08) 1px, transparent 1px);
+    background-size: 24px 24px;
+  }
+}
