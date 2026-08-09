@@ -65,6 +65,9 @@ export const Navbar: React.FC = () => {
               <span className="text-[10px] font-mono tracking-widest text-hhgoa-muted uppercase mt-0.5">
                 HHGOA 2026 OFFICIAL
               </span>
+              <span className="text-[9px] font-mono text-hhgoa-yellow/90 mt-0.5 font-semibold">
+                Built by Team CODENOVA • Samrudhi, Siddhi, Pragati
+              </span>
             </div>
           </div>
 

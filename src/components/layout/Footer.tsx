@@ -26,6 +26,9 @@ export const Footer: React.FC = () => {
                 <span className="text-[10px] font-mono tracking-widest text-hhgoa-muted uppercase mt-1">
                   OFFICIAL BUILDER STUDIO • HHGOA 2026
                 </span>
+                <span className="text-[11px] font-mono text-hhgoa-yellow font-semibold mt-1">
+                  Built by Team CODENOVA • Samrudhi, Siddhi, Pragati
+                </span>
               </div>
             </div>
             <p className="text-hhgoa-muted text-sm max-w-sm font-sans">
@@ -110,9 +113,9 @@ export const Footer: React.FC = () => {
         </div>
 
         <div className="pt-8 border-t border-hhgoa-border/40 flex flex-col sm:flex-row items-center justify-between text-xs text-hhgoa-muted gap-4">
-          <p className="font-mono">© 2026 HHGoa Builder Studio • Official Expedition Credentials</p>
+          <p className="font-mono">© 2026 HHGoa Builder Studio • Built by Team CODENOVA (Samrudhi, Siddhi, Pragati)</p>
           <p className="flex items-center gap-1 font-mono">
-            Crafted with <Heart className="w-3.5 h-3.5 text-red-500 fill-red-500 inline animate-pulse" /> for HHGoa 2026 Builders
+            Crafted with <Heart className="w-3.5 h-3.5 text-red-500 fill-red-500 inline animate-pulse" /> by Team CODENOVA
           </p>
         </div>
       </div>

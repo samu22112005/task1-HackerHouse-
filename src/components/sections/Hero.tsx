@@ -41,10 +41,16 @@ export const Hero: React.FC = () => {
             transition={{ duration: 0.6 }}
             className="lg:col-span-7 space-y-8 text-center lg:text-left"
           >
-            {/* Expedition Badge */}
-            <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-hhgoa-card/80 border border-hhgoa-border text-xs font-mono text-hhgoa-yellow shadow-sm">
-              <Compass className="w-4 h-4 text-hhgoa-yellow animate-spin-slow" />
-              <span>HACKER HOUSE GOA 2026 • 28 - 31 OCT</span>
+            {/* Expedition & Team Badges */}
+            <div className="flex flex-wrap items-center gap-2.5 justify-center lg:justify-start">
+              <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-hhgoa-card/80 border border-hhgoa-border text-xs font-mono text-hhgoa-yellow shadow-sm">
+                <Compass className="w-4 h-4 text-hhgoa-yellow animate-spin-slow" />
+                <span>HACKER HOUSE GOA 2026 • 28 - 31 OCT</span>
+              </div>
+              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-hhgoa-yellow/10 border border-hhgoa-yellow/40 text-xs font-mono text-hhgoa-yellow font-semibold shadow-sm">
+                <Code className="w-3.5 h-3.5 text-hhgoa-yellow" />
+                <span>Built by Team CODENOVA</span>
+              </div>
             </div>
 
             {/* Headline with Cormorant Garamond Serif */}
@@ -53,6 +59,11 @@ export const Hero: React.FC = () => {
                 Every Expedition <br />
                 <span className="editorial-gradient-text">Begins With An Identity.</span>
               </h1>
+              <div className="mt-3 inline-flex items-center gap-2 px-3 py-1 rounded-md bg-hhgoa-card/90 border border-hhgoa-border text-xs font-mono text-hhgoa-yellow font-medium">
+                <span>Built by Team CODENOVA</span>
+                <span className="text-hhgoa-muted">•</span>
+                <span className="text-hhgoa-light">Samrudhi, Siddhi, Pragati</span>
+              </div>
               <span className="devanagari-badge text-base sm:text-xl px-4 py-1 absolute -top-4 right-4 sm:right-12">
                 गोवा
               </span>
