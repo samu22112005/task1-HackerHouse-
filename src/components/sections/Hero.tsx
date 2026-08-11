@@ -1,9 +1,9 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Compass, ArrowRight, ShieldCheck, Code, Award, MapPin, Sparkles } from 'lucide-react';
 import { motion } from 'framer-motion';
-import { GoaBeachVectorArt } from '../illustration/GoaBeachVectorArt';
+import { Compass, ArrowRight, ShieldCheck, Code, Award, MapPin, Sparkles } from 'lucide-react';
+
 
 export const Hero: React.FC = () => {
   const [rotateX, setRotateX] = useState(0);
@@ -85,15 +85,7 @@ export const Hero: React.FC = () => {
           </div>
         </div>
 
-        {/* FEATURED HANDCRAFTED RETRO VECTOR ARTWORK (MATCHING USER SUBMITTED PHOTO) */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
-          className="max-w-6xl mx-auto mb-16 shadow-2xl"
-        >
-          <GoaBeachVectorArt />
-        </motion.div>
+
 
         {/* HIGHLIGHT STRIP BAR */}
         <div className="pt-6 border-t border-hhgoa-border/50 grid grid-cols-2 sm:grid-cols-4 gap-4 text-xs font-mono text-hhgoa-muted max-w-5xl mx-auto">
