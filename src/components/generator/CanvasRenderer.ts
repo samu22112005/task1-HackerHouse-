@@ -58,6 +58,119 @@ function drawSunburstRays(ctx: CanvasRenderingContext2D, width: number, height: 
   ctx.restore();
 }
 
+function drawSegmentedCoconutPalm(ctx: CanvasRenderingContext2D, x: number, y: number, scale: number = 1) {
+  ctx.save();
+  ctx.translate(x, y);
+  ctx.scale(scale, scale);
+
+  // Stacked Segmented Brown Bark Trunk
+  const segments = [
+    { y: 350, w: 36, h: 35 },
+    { y: 315, w: 34, h: 35 },
+    { y: 280, w: 32, h: 35 },
+    { y: 245, w: 30, h: 35 },
+    { y: 210, w: 28, h: 35 },
+    { y: 175, w: 26, h: 35 },
+    { y: 140, w: 24, h: 35 },
+    { y: 105, w: 22, h: 35 },
+  ];
+
+  segments.forEach((seg, i) => {
+    ctx.fillStyle = i % 2 === 0 ? '#8B4513' : '#CD853F';
+    ctx.strokeStyle = '#451A03';
+    ctx.lineWidth = 3;
+    drawRoundedRect(ctx, -seg.w / 2 + i * 2, seg.y, seg.w, seg.h, 6);
+    ctx.fill();
+    ctx.stroke();
+  });
+
+  // Green Crown Fronds
+  ctx.fillStyle = '#22C55E';
+  ctx.strokeStyle = '#14532D';
+  ctx.lineWidth = 3;
+
+  // Frond 1 (Upright)
+  ctx.beginPath();
+  ctx.moveTo(15, 105);
+  ctx.quadraticCurveTo(-20, 20, 0, -30);
+  ctx.quadraticCurveTo(30, 20, 15, 105);
+  ctx.fill();
+  ctx.stroke();
+
+  // Frond 2 (Left)
+  ctx.fillStyle = '#16A34A';
+  ctx.beginPath();
+  ctx.moveTo(15, 105);
+  ctx.quadraticCurveTo(-90, 30, -130, 60);
+  ctx.quadraticCurveTo(-70, 90, 15, 105);
+  ctx.fill();
+  ctx.stroke();
+
+  // Frond 3 (Right)
+  ctx.fillStyle = '#15803D';
+  ctx.beginPath();
+  ctx.moveTo(15, 105);
+  ctx.quadraticCurveTo(100, 30, 140, 70);
+  ctx.quadraticCurveTo(70, 95, 15, 105);
+  ctx.fill();
+  ctx.stroke();
+
+  // Coconuts Cluster
+  ctx.fillStyle = '#78350F';
+  ctx.strokeStyle = '#451A03';
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+  ctx.arc(8, 100, 9, 0, Math.PI * 2);
+  ctx.arc(20, 104, 8, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.stroke();
+
+  ctx.restore();
+}
+
+function drawCurlingSurfWave(ctx: CanvasRenderingContext2D, x: number, y: number, scale: number = 1) {
+  ctx.save();
+  ctx.translate(x, y);
+  ctx.scale(scale, scale);
+
+  // Wave Tube Body
+  ctx.fillStyle = '#0284C7';
+  ctx.strokeStyle = '#1E3A8A';
+  ctx.lineWidth = 4;
+  ctx.beginPath();
+  ctx.moveTo(10, 120);
+  ctx.quadraticCurveTo(40, 10, 140, 5);
+  ctx.quadraticCurveTo(220, 0, 260, 45);
+  ctx.quadraticCurveTo(280, 80, 240, 100);
+  ctx.quadraticCurveTo(200, 120, 150, 90);
+  ctx.quadraticCurveTo(100, 60, 80, 80);
+  ctx.quadraticCurveTo(50, 100, 10, 120);
+  ctx.closePath();
+  ctx.fill();
+  ctx.stroke();
+
+  // White Foam Crest
+  ctx.fillStyle = '#FFFDF7';
+  ctx.beginPath();
+  ctx.moveTo(230, 20);
+  ctx.quadraticCurveTo(260, -10, 290, 15);
+  ctx.quadraticCurveTo(310, 40, 280, 70);
+  ctx.quadraticCurveTo(250, 90, 230, 70);
+  ctx.closePath();
+  ctx.fill();
+  ctx.stroke();
+
+  // Water Spray Droplets
+  ctx.fillStyle = '#38BDF8';
+  ctx.beginPath();
+  ctx.arc(315, 50, 4, 0, Math.PI * 2);
+  ctx.arc(330, 70, 5, 0, Math.PI * 2);
+  ctx.arc(305, 90, 4, 0, Math.PI * 2);
+  ctx.fill();
+
+  ctx.restore();
+}
+
 function drawVectorPalmAccents(ctx: CanvasRenderingContext2D, width: number, height: number) {
   ctx.save();
   // Left Palm Silhouette
@@ -344,6 +457,10 @@ export async function renderBuilderPass(
 
   // Retro Sunburst Rays Watermark
   drawSunburstRays(ctx, width, height, themeColors.accentYellow);
+
+  // Segmented Coconut Palm & Curling Surf Wave Accents
+  drawSegmentedCoconutPalm(ctx, 40, 520, 0.95);
+  drawCurlingSurfWave(ctx, 640, 680, 0.75);
 
   // Topographic Lines Watermark
   ctx.strokeStyle = 'rgba(255, 255, 255, 0.15)';
