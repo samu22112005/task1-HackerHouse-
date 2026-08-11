@@ -10,6 +10,7 @@ import { StudioState, PassMode, TeamSize, ExportFormat, PassTheme } from '@/type
 import { 
   SEARCHABLE_TECH_STACKS, 
   PRESET_HOBBIES,
+  PRESET_STICKERS,
   PRESET_ROLES, 
   BUILDER_TITLES, 
   getRandomBuilderTitle, 
@@ -560,6 +561,40 @@ export const IdentityGenerator: React.FC<IdentityGeneratorProps> = ({
                         >
                           {isSelected && <Check className="w-3 h-3" />}
                           🌴 {hobby}
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+
+                {/* FUN BEACH STICKERS SECTION */}
+                <div className="space-y-2 pt-2 border-t border-hhgoa-border/60">
+                  <label className="text-xs font-mono text-[#FF007A] uppercase font-extrabold flex items-center gap-1.5">
+                    <Sparkles className="w-3.5 h-3.5 text-[#FF007A]" /> FUN BEACH STICKERS (SLAP ON PASS)
+                  </label>
+                  <div className="flex flex-wrap gap-1.5 max-h-32 overflow-y-auto p-2.5 rounded-xl bg-hhgoa-bg border border-hhgoa-border">
+                    {PRESET_STICKERS.map((stk) => {
+                      const isSelected = state.selectedStickers?.includes(stk);
+                      return (
+                        <button
+                          key={stk}
+                          type="button"
+                          onClick={() => {
+                            setState((prev) => {
+                              const curr = prev.selectedStickers || [];
+                              const exists = curr.includes(stk);
+                              const updated = exists ? curr.filter((s) => s !== stk) : [...curr, stk];
+                              return { ...prev, selectedStickers: updated };
+                            });
+                          }}
+                          className={`px-3 py-1 rounded-lg font-mono text-xs transition-all flex items-center gap-1 ${
+                            isSelected
+                              ? 'bg-[#FF007A] text-white font-bold shadow-lg scale-105'
+                              : 'bg-hhgoa-secondary text-hhgoa-muted hover:text-white border border-hhgoa-border'
+                          }`}
+                        >
+                          {isSelected && <Check className="w-3 h-3" />}
+                          {stk}
                         </button>
                       );
                     })}

@@ -11,6 +11,17 @@ export const DEFAULT_CROP_ADJUSTMENTS: CropAdjustments = {
   aspectShape: 'circle',
 };
 
+export const PRESET_STICKERS = [
+  "🥥 Coconut Powered",
+  "⚡ 5 AM Shack Hack",
+  "🏄 Wave Surfer",
+  "🌴 Villa #3 Squad",
+  "🔥 Superteam Goa",
+  "☕ Cold Brew Hacking",
+  "🎶 Sunset DJ",
+  "🚀 Ship or Dip"
+];
+
 export const BUILDER_TITLES = [
   "Neural Nomad",
   "Fullstack Surfer",
@@ -84,6 +95,7 @@ export function createEmptyStudioState(): StudioState {
     teamName: 'Expedition Team',
     expeditionTag: '#FrameInGoa',
     theme: 'jungle',
+    selectedStickers: ['🥥 Coconut Powered', '⚡ 5 AM Shack Hack'],
     solo: {
       id: '1',
       name: '',

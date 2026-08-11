@@ -63,6 +63,7 @@ export interface StudioState {
   teamName: string;
   expeditionTag: string;
   theme: PassTheme;
+  selectedStickers: string[];
   solo: SoloMember;
   teamMembers: TeamMember[];
   selectedExportFormat: ExportFormat;

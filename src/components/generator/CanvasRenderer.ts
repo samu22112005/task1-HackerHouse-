@@ -160,7 +160,7 @@ function drawVerifiedStamp(
   ctx.rotate(-0.15);
 
   ctx.strokeStyle = '#FF007A';
-  ctx.lineWidth = 3;
+  ctx.lineWidth = 3.5;
   ctx.beginPath();
   ctx.arc(0, 0, radius, 0, Math.PI * 2);
   ctx.stroke();
@@ -169,12 +169,43 @@ function drawVerifiedStamp(
   ctx.arc(0, 0, radius - 6, 0, Math.PI * 2);
   ctx.stroke();
 
-  ctx.font = 'bold 12px monospace';
+  ctx.font = 'bold 13px "Space Grotesk", monospace';
   ctx.fillStyle = '#FF007A';
   ctx.textAlign = 'center';
   ctx.fillText('OFFICIAL BUILDER', 0, -10);
   ctx.fillText('HHGOA 2026', 0, 8);
   ctx.fillText('GOA, INDIA', 0, 24);
+
+  ctx.restore();
+}
+
+function drawStickerDecal(
+  ctx: CanvasRenderingContext2D,
+  text: string,
+  x: number,
+  y: number,
+  angleRad: number,
+  bgColor: string = '#FF007A'
+) {
+  ctx.save();
+  ctx.translate(x, y);
+  ctx.rotate(angleRad);
+
+  ctx.font = 'bold 15px "Space Grotesk", sans-serif';
+  const metrics = ctx.measureText(text);
+  const w = metrics.width + 24;
+  const h = 32;
+
+  ctx.fillStyle = bgColor;
+  ctx.strokeStyle = '#FFFDF7';
+  ctx.lineWidth = 2.5;
+  drawRoundedRect(ctx, -w / 2, -h / 2, w, h, 16);
+  ctx.fill();
+  ctx.stroke();
+
+  ctx.fillStyle = '#FFFDF7';
+  ctx.textAlign = 'center';
+  ctx.fillText(text, 0, 5);
 
   ctx.restore();
 }
@@ -426,8 +457,23 @@ export async function renderBuilderPass(
     ctx.fillText(`HOBBIES: ${hobbiesStr}`, cardX + 60, hobbyY);
   }
 
+  // Draw Selected Fun Beach Stickers
+  const stickersToDraw = state.selectedStickers && state.selectedStickers.length > 0 
+    ? state.selectedStickers 
+    : ['🥥 Coconut Powered', '⚡ 5 AM Shack Hack'];
+  
+  if (stickersToDraw[0]) {
+    drawStickerDecal(ctx, stickersToDraw[0], cardX + cardW - 140, avatarY + 30, 0.12, '#FF007A');
+  }
+  if (stickersToDraw[1]) {
+    drawStickerDecal(ctx, stickersToDraw[1], cardX + cardW - 130, avatarY + 80, -0.08, '#10B981');
+  }
+  if (stickersToDraw[2]) {
+    drawStickerDecal(ctx, stickersToDraw[2], cardX + cardW - 145, avatarY + 130, 0.15, '#F59E0B');
+  }
+
   // Stamp & Barcode & QR
-  drawVerifiedStamp(ctx, cardX + cardW - 280, avatarY + avatarSize + 70, 50);
+  drawVerifiedStamp(ctx, cardX + cardW - 270, avatarY + avatarSize + 70, 50);
 
   const qrSize = 110;
   const qrX = cardX + cardW - qrSize - 50;
