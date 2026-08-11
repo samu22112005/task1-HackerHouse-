@@ -458,9 +458,9 @@ export async function renderBuilderPass(
   // Retro Sunburst Rays Watermark
   drawSunburstRays(ctx, width, height, themeColors.accentYellow);
 
-  // Segmented Coconut Palm & Curling Surf Wave Accents
-  drawSegmentedCoconutPalm(ctx, 40, 520, 0.95);
-  drawCurlingSurfWave(ctx, 640, 680, 0.75);
+  // Segmented Coconut Palm & Curling Surf Wave Accents (Positioned cleanly)
+  drawSegmentedCoconutPalm(ctx, -20, 550, 0.85);
+  drawCurlingSurfWave(ctx, 720, 720, 0.65);
 
   // Topographic Lines Watermark
   ctx.strokeStyle = 'rgba(255, 255, 255, 0.15)';
@@ -494,47 +494,47 @@ export async function renderBuilderPass(
 
   // Header Branding (2:47PM STUDIO & HACKER HOUSE GOA)
   ctx.textAlign = 'left';
-  ctx.font = 'bold 28px "Space Grotesk", sans-serif';
+  ctx.font = 'bold 26px "Space Grotesk", sans-serif';
   ctx.fillStyle = themeColors.accentYellow;
-  ctx.fillText('2:47PM STUDIO', cardX + 50, cardY + 65);
+  ctx.fillText('2:47PM STUDIO', cardX + 40, cardY + 62);
 
-  ctx.font = 'bold 20px monospace';
+  ctx.font = 'bold 18px monospace';
   ctx.fillStyle = '#D6DCCF';
-  ctx.fillText('HHGOA 2026', cardX + 270, cardY + 65);
+  ctx.fillText('HHGOA 2026', cardX + 245, cardY + 62);
 
-  // Pink GOA BEACH Neon Signboard Badge
-  drawGoaBeachNeonBadge(ctx, cardX + cardW - 365, cardY + 36, themeColors.signText, themeColors.signColor);
+  // Neon Signboard Badge (Right Aligned Cleanly)
+  drawGoaBeachNeonBadge(ctx, cardX + cardW - 370, cardY + 36, themeColors.signText, themeColors.signColor);
 
   // Devanagari Pink Badge Overlay
   ctx.save();
   ctx.fillStyle = '#FF007A';
-  drawRoundedRect(ctx, cardX + cardW - 170, cardY + 36, 65, 36, 18);
+  drawRoundedRect(ctx, cardX + cardW - 180, cardY + 36, 60, 36, 18);
   ctx.fill();
-  ctx.font = 'bold 18px sans-serif';
+  ctx.font = 'bold 17px sans-serif';
   ctx.fillStyle = '#FFFDF7';
   ctx.textAlign = 'center';
-  ctx.fillText('गोवा', cardX + cardW - 138, cardY + 60);
+  ctx.fillText('गोवा', cardX + cardW - 150, cardY + 60);
   ctx.restore();
 
   // ID Badge (Right Aligned)
-  ctx.font = 'bold 16px monospace';
+  ctx.font = 'bold 14px monospace';
   const idText = state.builderId || 'HHGOA-2026-EXP-XXXX';
   ctx.fillStyle = themeColors.accentYellow;
   ctx.textAlign = 'right';
-  ctx.fillText(idText, cardX + cardW - 50, cardY + 60);
+  ctx.fillText(idText, cardX + cardW - 25, cardY + 60);
 
   // Divider
   ctx.strokeStyle = 'rgba(255, 255, 255, 0.2)';
   ctx.lineWidth = 2;
   ctx.beginPath();
-  ctx.moveTo(cardX + 50, cardY + 95);
-  ctx.lineTo(cardX + cardW - 50, cardY + 95);
+  ctx.moveTo(cardX + 40, cardY + 95);
+  ctx.lineTo(cardX + cardW - 40, cardY + 95);
   ctx.stroke();
 
   // Avatar Photo Box
-  const avatarSize = 250;
-  const avatarX = cardX + 60;
-  const avatarY = cardY + 130;
+  const avatarSize = 240;
+  const avatarX = cardX + 50;
+  const avatarY = cardY + 125;
 
   ctx.save();
   ctx.strokeStyle = themeColors.accentYellow;
@@ -560,63 +560,63 @@ export async function renderBuilderPass(
     drawAvatarPlaceholder(ctx, avatarX, avatarY, avatarSize);
   }
 
-  // Member Info
-  const infoX = avatarX + avatarSize + 40;
-  const infoY = avatarY + 45;
+  // Member Info (Positioned cleanly without overlap)
+  const infoX = avatarX + avatarSize + 35;
+  const infoY = avatarY + 35;
 
   ctx.textAlign = 'left';
-  ctx.font = 'bold 54px "Cormorant Garamond", serif';
+  ctx.font = 'bold 48px "Cormorant Garamond", serif';
   ctx.fillStyle = solo.name ? '#FFFDF7' : '#D6DCCF';
   ctx.fillText(solo.name || 'Your Name Here', infoX, infoY + 10);
 
   // Builder Title (e.g. Neural Nomad)
-  ctx.font = 'bold 22px "Space Grotesk", sans-serif';
+  ctx.font = 'bold 20px "Space Grotesk", sans-serif';
   ctx.fillStyle = themeColors.accentSecondary;
-  ctx.fillText(`⚡ ${solo.title || 'Builder Title'}`, infoX, infoY + 50);
+  ctx.fillText(`⚡ ${solo.title || 'Builder Title'}`, infoX, infoY + 48);
 
   // Role
-  ctx.font = 'bold 22px monospace';
+  ctx.font = 'bold 20px monospace';
   ctx.fillStyle = themeColors.accentYellow;
-  ctx.fillText(`Role: ${solo.role || 'Primary Role'}`, infoX, infoY + 90);
+  ctx.fillText(`Role: ${solo.role || 'Primary Role'}`, infoX, infoY + 86);
 
   // College & Location
-  ctx.font = '20px "Inter", sans-serif';
+  ctx.font = '18px "Inter", sans-serif';
   ctx.fillStyle = '#D6DCCF';
-  ctx.fillText(`📍 ${solo.collegeOrOrg || 'College / Organization'}`, infoX, infoY + 130);
-  ctx.fillText(`🏛️ ${solo.location || 'Goa, India'}`, infoX, infoY + 165);
+  ctx.fillText(`📍 ${solo.collegeOrOrg || 'College / Organization'}`, infoX, infoY + 124);
+  ctx.fillText(`🏛️ ${solo.location || 'Goa, India'}`, infoX, infoY + 158);
 
   // Motto Box
-  const mottoY = avatarY + avatarSize + 40;
+  const mottoY = avatarY + avatarSize + 35;
   ctx.fillStyle = 'rgba(0, 0, 0, 0.4)';
   ctx.strokeStyle = themeColors.cardBorder;
   ctx.lineWidth = 1.5;
-  drawRoundedRect(ctx, cardX + 60, mottoY, cardW - 120, 64, 14);
+  drawRoundedRect(ctx, cardX + 50, mottoY, cardW - 100, 60, 14);
   ctx.fill();
   ctx.stroke();
 
-  ctx.font = 'italic 22px "Cormorant Garamond", serif';
+  ctx.font = 'italic 20px "Cormorant Garamond", serif';
   ctx.fillStyle = solo.motto ? '#FFFDF7' : '#D6DCCF';
-  ctx.fillText(`"${solo.motto || 'Your motto / tagline here'}"`, cardX + 80, mottoY + 40);
+  ctx.fillText(`"${solo.motto || 'Your motto / tagline here'}"`, cardX + 70, mottoY + 38);
 
   // Tech Stack Badges
-  const techY = avatarY + avatarSize + 135;
-  ctx.font = 'bold 16px monospace';
+  const techY = avatarY + avatarSize + 125;
+  ctx.font = 'bold 15px monospace';
   ctx.fillStyle = '#D6DCCF';
-  ctx.fillText('CAPABILITIES & STACK', cardX + 60, techY);
+  ctx.fillText('CAPABILITIES & STACK', cardX + 50, techY);
 
-  let badgeX = cardX + 60;
+  let badgeX = cardX + 50;
   let badgeY = techY + 15;
-  ctx.font = 'bold 19px "Inter", sans-serif';
+  ctx.font = 'bold 18px "Inter", sans-serif';
 
   const stackList = solo.techStack.length > 0 ? solo.techStack : ['React', 'Next.js', 'AI', 'Select Stack'];
   stackList.forEach((tech) => {
     const textWidth = ctx.measureText(tech).width;
-    const badgeW = textWidth + 36;
-    const badgeH = 40;
+    const badgeW = textWidth + 34;
+    const badgeH = 38;
 
-    if (badgeX + badgeW > cardX + cardW - 220) {
-      badgeX = cardX + 60;
-      badgeY += 50;
+    if (badgeX + badgeW > cardX + cardW - 200) {
+      badgeX = cardX + 50;
+      badgeY += 46;
     }
 
     ctx.fillStyle = 'rgba(0, 0, 0, 0.5)';
@@ -627,30 +627,30 @@ export async function renderBuilderPass(
     ctx.stroke();
 
     ctx.fillStyle = '#FFFDF7';
-    ctx.fillText(tech, badgeX + 18, badgeY + 26);
+    ctx.fillText(tech, badgeX + 17, badgeY + 25);
 
-    badgeX += badgeW + 12;
+    badgeX += badgeW + 10;
   });
 
   // Hobbies & Passions Bar
   if (solo.hobbies && solo.hobbies.length > 0) {
-    const hobbyY = badgeY + 58;
-    ctx.font = 'bold 15px monospace';
+    const hobbyY = badgeY + 52;
+    ctx.font = 'bold 14px monospace';
     ctx.fillStyle = themeColors.accentSecondary;
     const hobbiesStr = solo.hobbies.map((h) => `🌴 ${h}`).join(' • ');
-    ctx.fillText(`HOBBIES: ${hobbiesStr}`, cardX + 60, hobbyY);
+    ctx.fillText(`HOBBIES: ${hobbiesStr}`, cardX + 50, hobbyY);
   }
 
-  // Draw Selected Fun Beach Stickers
+  // Draw Selected Fun Beach Stickers (Positioned cleanly on Motto Box corners without text overlap)
   const stickersToDraw = state.selectedStickers && state.selectedStickers.length > 0 
     ? state.selectedStickers 
     : ['🥥 Coconut Powered', '⚡ 5 AM Shack Hack'];
   
   if (stickersToDraw[0]) {
-    drawStickerDecal(ctx, stickersToDraw[0], cardX + cardW - 140, avatarY + 30, 0.12, '#FF007A');
+    drawStickerDecal(ctx, stickersToDraw[0], cardX + cardW - 150, mottoY + 30, 0.1, '#FF007A');
   }
   if (stickersToDraw[1]) {
-    drawStickerDecal(ctx, stickersToDraw[1], cardX + cardW - 130, avatarY + 80, -0.08, '#10B981');
+    drawStickerDecal(ctx, stickersToDraw[1], cardX + cardW - 140, mottoY - 15, -0.06, '#10B981');
   }
   if (stickersToDraw[2]) {
     drawStickerDecal(ctx, stickersToDraw[2], cardX + cardW - 145, avatarY + 130, 0.15, '#F59E0B');
