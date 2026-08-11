@@ -34,6 +34,37 @@ function getThemeColors(theme: PassTheme = 'jungle') {
   };
 }
 
+function drawSunburstRays(ctx: CanvasRenderingContext2D, width: number, height: number, color: string) {
+  const sunX = width / 2;
+  const sunY = height * 0.25;
+  const rays = 18;
+  ctx.save();
+  ctx.strokeStyle = color;
+  ctx.lineWidth = 2;
+  ctx.globalAlpha = 0.08;
+  for (let i = 0; i < rays; i++) {
+    const angle = (i * Math.PI * 2) / rays;
+    ctx.beginPath();
+    ctx.moveTo(sunX, sunY);
+    ctx.lineTo(sunX + Math.cos(angle) * width, sunY + Math.sin(angle) * height);
+    ctx.stroke();
+  }
+  ctx.restore();
+}
+
+function drawPalmLeafAccent(ctx: CanvasRenderingContext2D, x: number, y: number, scale: number) {
+  ctx.save();
+  ctx.translate(x, y);
+  ctx.scale(scale, scale);
+  ctx.strokeStyle = '#FFD23F';
+  ctx.lineWidth = 3;
+  ctx.globalAlpha = 0.4;
+  ctx.beginPath();
+  ctx.arc(0, 0, 40, -Math.PI / 3, Math.PI / 3);
+  ctx.stroke();
+  ctx.restore();
+}
+
 function drawRoundedRect(
   ctx: CanvasRenderingContext2D,
   x: number,
@@ -215,6 +246,9 @@ export async function renderBuilderPass(
   bgGrad.addColorStop(1, themeColors.bgOuter);
   ctx.fillStyle = bgGrad;
   ctx.fillRect(0, 0, width, height);
+
+  // Retro Sunburst Rays Watermark
+  drawSunburstRays(ctx, width, height, themeColors.accentYellow);
 
   // Topographic Lines Watermark
   ctx.strokeStyle = 'rgba(255, 255, 255, 0.15)';

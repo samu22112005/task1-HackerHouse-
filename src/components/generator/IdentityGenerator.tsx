@@ -17,7 +17,7 @@ import {
   generateHHGoaID,
   createEmptyStudioState,
   DEFAULT_CROP_ADJUSTMENTS
-} from '@/utils/aiGenerator';
+} from '@/utils/builderPassGenerator';
 import { renderBuilderPass, renderTeamPass, renderProfileFrame, renderInstagramStory } from './CanvasRenderer';
 import { ImageCropModal } from '../cropper/ImageCropModal';
 import { PreviewExportModal } from './PreviewExportModal';
@@ -117,7 +117,7 @@ export const IdentityGenerator: React.FC<IdentityGeneratorProps> = ({
     }));
   };
 
-  // File Select Handler with automatic pre-scaling to max 1000px
+  // File Select Handler with automatic pre-scaling
   const handleFileChange = (target: 'solo' | number, e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
@@ -251,7 +251,7 @@ export const IdentityGenerator: React.FC<IdentityGeneratorProps> = ({
     <section id="generator" className="py-16 relative z-10">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
-        {/* Editorial Header */}
+        {/* Header */}
         <div className="text-center space-y-3 mb-12">
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-hhgoa-card border border-hhgoa-border text-xs font-mono text-hhgoa-yellow">
             <Sparkles className="w-3.5 h-3.5" />
@@ -355,7 +355,7 @@ export const IdentityGenerator: React.FC<IdentityGeneratorProps> = ({
                       Bring Your Portrait
                     </h4>
                     <p className="text-xs text-hhgoa-muted mb-2 font-mono">
-                      Accepts PNG, JPG, JPEG, WEBP & HEIC. Precision crop & filter editor.
+                      Accepts PNG, JPG, WEBP & HEIC. Precision crop & filter editor.
                     </p>
                     <label className="px-4 py-2 rounded-xl bg-hhgoa-secondary border border-hhgoa-border text-xs font-mono text-hhgoa-yellow cursor-pointer hover:border-hhgoa-yellow inline-flex items-center gap-2 font-bold shadow-sm">
                       <Crop className="w-4 h-4 text-hhgoa-yellow" />

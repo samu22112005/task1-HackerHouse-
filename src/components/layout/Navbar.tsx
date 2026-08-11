@@ -1,13 +1,15 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { Compass, Github, Menu, X, Sun, Moon } from 'lucide-react';
+import { Compass, Github, Menu, X, Sun, Moon, Volume2, VolumeX } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { toggleBeachAmbience } from '@/utils/audio';
 
 export const Navbar: React.FC = () => {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(true);
+  const [isPlayingAudio, setIsPlayingAudio] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -25,6 +27,11 @@ export const Navbar: React.FC = () => {
       window.removeEventListener('keydown', handleKeyDown);
     };
   }, []);
+
+  const handleAudioToggle = () => {
+    const playing = toggleBeachAmbience((p) => setIsPlayingAudio(p));
+    setIsPlayingAudio(playing);
+  };
 
   const scrollToSection = (id: string) => {
     setMobileMenuOpen(false);
@@ -45,7 +52,7 @@ export const Navbar: React.FC = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between">
           
-          {/* Logo */}
+          {/* Brand Logo */}
           <div 
             onClick={() => scrollToSection('hero')}
             className="flex items-center gap-3 cursor-pointer group"
@@ -58,15 +65,15 @@ export const Navbar: React.FC = () => {
                 <span className="font-serif italic font-bold text-xl text-hhgoa-light">
                   STUDIO
                 </span>
-                <span className="devanagari-badge text-xs px-2 py-0.5 ml-1">
+                <span className="devanagari-badge text-xs px-2 py-0.5 ml-1 animate-pulse">
                   गोवा
                 </span>
               </div>
               <span className="text-[10px] font-mono tracking-widest text-hhgoa-muted uppercase mt-0.5">
-                HHGOA 2026 OFFICIAL
+                HACKER HOUSE GOA 2026
               </span>
               <span className="text-[9px] font-mono text-hhgoa-yellow/90 mt-0.5 font-semibold">
-                Built by Team CODENOVA • Samrudhi, Siddhi, Pragati
+                Handcrafted Expedition Credentials • Team CODENOVA
               </span>
             </div>
           </div>
@@ -77,7 +84,7 @@ export const Navbar: React.FC = () => {
               onClick={() => scrollToSection('hero')}
               className="text-sm font-medium tracking-wide text-hhgoa-muted hover:text-hhgoa-yellow transition-colors"
             >
-              Studio
+              Studio Scene
             </button>
             <button
               onClick={() => scrollToSection('expedition')}
@@ -89,7 +96,7 @@ export const Navbar: React.FC = () => {
               onClick={() => scrollToSection('generator')}
               className="text-sm font-medium tracking-wide text-hhgoa-muted hover:text-hhgoa-yellow transition-colors"
             >
-              Builder Pass
+              Builder Pass Studio
             </button>
             <button
               onClick={() => scrollToSection('features')}
@@ -107,6 +114,21 @@ export const Navbar: React.FC = () => {
 
           {/* Action CTAs */}
           <div className="hidden md:flex items-center gap-3">
+            
+            {/* Beach Ocean Waves Sound Toggle */}
+            <button
+              onClick={handleAudioToggle}
+              className={`p-2.5 rounded-xl border text-xs font-mono font-bold flex items-center gap-2 transition-all cursor-pointer ${
+                isPlayingAudio
+                  ? 'bg-hhgoa-pink text-white border-hhgoa-pink shadow-lg animate-pulse'
+                  : 'bg-hhgoa-card/70 border-hhgoa-border text-hhgoa-yellow hover:border-hhgoa-yellow hover:bg-hhgoa-card'
+              }`}
+              title="Toggle Ocean Waves Sound"
+            >
+              {isPlayingAudio ? <Volume2 className="w-4 h-4" /> : <VolumeX className="w-4 h-4" />}
+              <span className="hidden xl:inline">{isPlayingAudio ? 'Waves ON' : 'Beach Sound'}</span>
+            </button>
+
             {/* Theme Toggle */}
             <button
               onClick={() => setIsDarkMode(!isDarkMode)}
@@ -162,25 +184,19 @@ export const Navbar: React.FC = () => {
               onClick={() => scrollToSection('hero')}
               className="block w-full text-left py-2 text-hhgoa-muted hover:text-hhgoa-yellow font-medium"
             >
-              Home
+              Home Scene
             </button>
             <button
               onClick={() => scrollToSection('generator')}
               className="block w-full text-left py-2 text-hhgoa-muted hover:text-hhgoa-yellow font-medium"
             >
-              Builder Pass (Solo)
+              Solo Builder Pass
             </button>
             <button
               onClick={() => scrollToSection('generator')}
               className="block w-full text-left py-2 text-hhgoa-muted hover:text-hhgoa-yellow font-medium"
             >
-              Expedition Pass (Team)
-            </button>
-            <button
-              onClick={() => scrollToSection('gallery')}
-              className="block w-full text-left py-2 text-hhgoa-muted hover:text-hhgoa-yellow font-medium"
-            >
-              Gallery
+              Team Expedition Pass
             </button>
             <button
               onClick={() => scrollToSection('faq')}
@@ -191,10 +207,18 @@ export const Navbar: React.FC = () => {
 
             <div className="pt-4 border-t border-hhgoa-border flex flex-col gap-3">
               <button
+                onClick={handleAudioToggle}
+                className="w-full py-2.5 rounded-xl bg-hhgoa-card border border-hhgoa-border text-hhgoa-yellow font-mono text-xs font-bold flex items-center justify-center gap-2"
+              >
+                {isPlayingAudio ? <Volume2 className="w-4 h-4" /> : <VolumeX className="w-4 h-4" />}
+                <span>{isPlayingAudio ? 'Turn Waves Off' : 'Play Beach Sound'}</span>
+              </button>
+
+              <button
                 onClick={() => scrollToSection('generator')}
                 className="w-full py-3 rounded-xl bg-gradient-to-r from-hhgoa-yellow to-hhgoa-gold text-hhgoa-dark font-heading font-bold text-center shadow-expedition-yellow"
               >
-                Generate Pass
+                Generate Builder Pass
               </button>
             </div>
           </motion.div>
