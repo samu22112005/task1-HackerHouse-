@@ -52,16 +52,74 @@ function drawSunburstRays(ctx: CanvasRenderingContext2D, width: number, height: 
   ctx.restore();
 }
 
-function drawPalmLeafAccent(ctx: CanvasRenderingContext2D, x: number, y: number, scale: number) {
+function drawVectorPalmAccents(ctx: CanvasRenderingContext2D, width: number, height: number) {
   ctx.save();
-  ctx.translate(x, y);
-  ctx.scale(scale, scale);
+  // Left Palm Silhouette
+  ctx.strokeStyle = '#0B3D2E';
+  ctx.lineWidth = 14;
+  ctx.lineCap = 'round';
+  ctx.beginPath();
+  ctx.moveTo(0, height);
+  ctx.quadraticCurveTo(80, height - 300, 110, height - 550);
+  ctx.stroke();
+
   ctx.strokeStyle = '#FFD23F';
   ctx.lineWidth = 3;
-  ctx.globalAlpha = 0.4;
-  ctx.beginPath();
-  ctx.arc(0, 0, 40, -Math.PI / 3, Math.PI / 3);
+  ctx.setLineDash([12, 8]);
   ctx.stroke();
+  ctx.setLineDash([]);
+
+  // Left Fronds
+  const leftFronds = [
+    "M110,height-550 Q30,height-630 -30,height-580",
+    "M110,height-550 Q50,height-680 -10,height-720",
+    "M110,height-550 Q160,height-680 230,height-660",
+    "M110,height-550 Q190,height-600 250,height-530"
+  ];
+  ctx.lineWidth = 12;
+  ctx.strokeStyle = '#04382A';
+  leftFronds.forEach((d) => {
+    ctx.beginPath();
+    ctx.moveTo(110, height - 550);
+    ctx.quadraticCurveTo(40, height - 640, -40, height - 580);
+    ctx.stroke();
+  });
+
+  // Right Palm Silhouette
+  ctx.lineWidth = 14;
+  ctx.strokeStyle = '#0B3D2E';
+  ctx.beginPath();
+  ctx.moveTo(width, height);
+  ctx.quadraticCurveTo(width - 80, height - 300, width - 110, height - 550);
+  ctx.stroke();
+
+  ctx.strokeStyle = '#FFD23F';
+  ctx.lineWidth = 3;
+  ctx.setLineDash([12, 8]);
+  ctx.stroke();
+  ctx.restore();
+}
+
+function drawGoaBeachNeonBadge(ctx: CanvasRenderingContext2D, x: number, y: number) {
+  ctx.save();
+  ctx.translate(x, y);
+
+  // Pink Sign Box
+  ctx.fillStyle = '#FF007A';
+  ctx.strokeStyle = '#FFFDF7';
+  ctx.lineWidth = 3;
+  ctx.shadowBlur = 15;
+  ctx.shadowColor = '#FF007A';
+  drawRoundedRect(ctx, 0, 0, 160, 36, 8);
+  ctx.fill();
+  ctx.stroke();
+
+  // Text
+  ctx.font = '900 16px "Space Grotesk", sans-serif';
+  ctx.fillStyle = '#FFFDF7';
+  ctx.textAlign = 'center';
+  ctx.fillText('GOA BEACH 2026', 80, 24);
+
   ctx.restore();
 }
 
@@ -319,17 +377,20 @@ export async function renderBuilderPass(
 
   ctx.font = 'bold 20px monospace';
   ctx.fillStyle = '#D6DCCF';
-  ctx.fillText('HACKER HOUSE GOA 2026', cardX + 270, cardY + 65);
+  ctx.fillText('HHGOA 2026', cardX + 270, cardY + 65);
+
+  // Pink GOA BEACH Neon Signboard Badge
+  drawGoaBeachNeonBadge(ctx, cardX + cardW - 350, cardY + 36);
 
   // Devanagari Pink Badge Overlay
   ctx.save();
   ctx.fillStyle = '#FF007A';
-  drawRoundedRect(ctx, cardX + cardW - 320, cardY + 38, 70, 36, 18);
+  drawRoundedRect(ctx, cardX + cardW - 170, cardY + 36, 65, 36, 18);
   ctx.fill();
   ctx.font = 'bold 18px sans-serif';
   ctx.fillStyle = '#FFFDF7';
   ctx.textAlign = 'center';
-  ctx.fillText('गोवा', cardX + cardW - 285, cardY + 62);
+  ctx.fillText('गोवा', cardX + cardW - 138, cardY + 60);
   ctx.restore();
 
   // ID Badge (Right Aligned)
@@ -337,7 +398,7 @@ export async function renderBuilderPass(
   const idText = state.builderId || 'HHGOA-2026-EXP-XXXX';
   ctx.fillStyle = themeColors.accentYellow;
   ctx.textAlign = 'right';
-  ctx.fillText(idText, cardX + cardW - 50, cardY + 62);
+  ctx.fillText(idText, cardX + cardW - 50, cardY + 60);
 
   // Divider
   ctx.strokeStyle = 'rgba(255, 255, 255, 0.2)';
@@ -516,6 +577,9 @@ export async function renderTeamPass(
   bgGrad.addColorStop(1, themeColors.bgOuter);
   ctx.fillStyle = bgGrad;
   ctx.fillRect(0, 0, width, height);
+
+  // Retro Sunburst Rays Watermark
+  drawSunburstRays(ctx, width, height, themeColors.accentYellow);
 
   // Main Card Box
   const cardX = 60;
