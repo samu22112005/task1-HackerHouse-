@@ -6,24 +6,34 @@ function getThemeColors(theme: PassTheme = 'jungle') {
       bgInner: '#C2410C',
       bgMid: '#7C2D12',
       bgOuter: '#451A03',
-      cardFill: 'rgba(67, 20, 10, 0.96)',
+      cardFill: 'rgba(50, 15, 8, 0.90)',
       cardBorder: '#FF4500',
       accentYellow: '#FFD23F',
       accentSecondary: '#FF007A',
       signText: 'GOA SUNSET 2026',
       signColor: '#FF4500',
+      sunColor: '#FF4500',
+      oceanColor1: '#C2410C',
+      oceanColor2: '#451A03',
+      sandColor1: '#D97706',
+      sandColor2: '#78350F',
     };
   } else if (theme === 'midnight') {
     return {
       bgInner: '#1E1B4B',
       bgMid: '#0F172A',
       bgOuter: '#020617',
-      cardFill: 'rgba(10, 15, 30, 0.96)',
+      cardFill: 'rgba(10, 15, 30, 0.90)',
       cardBorder: '#FF007A',
       accentYellow: '#38BDF8',
       accentSecondary: '#FF007A',
       signText: 'GOA NIGHT RAVE',
       signColor: '#FF007A',
+      sunColor: '#FF007A',
+      oceanColor1: '#0F2B48',
+      oceanColor2: '#020617',
+      sandColor1: '#334155',
+      sandColor2: '#1E293B',
     };
   }
   // Default 'jungle'
@@ -31,31 +41,220 @@ function getThemeColors(theme: PassTheme = 'jungle') {
     bgInner: '#14532D',
     bgMid: '#0B3D2E',
     bgOuter: '#062018',
-    cardFill: 'rgba(12, 45, 32, 0.96)',
+    cardFill: 'rgba(8, 32, 22, 0.90)',
     cardBorder: '#2E5A46',
     accentYellow: '#FFD23F',
     accentSecondary: '#10B981',
     signText: 'GOA BEACH 2026',
     signColor: '#FF007A',
+    sunColor: '#FFD23F',
+    oceanColor1: '#0284C7',
+    oceanColor2: '#0369A1',
+    sandColor1: '#F5F5F4',
+    sandColor2: '#E7E5E4',
   };
 }
 
-function drawSunburstRays(ctx: CanvasRenderingContext2D, width: number, height: number, color: string) {
+// ---------------- COMPLETE GOA BEACH RETRO VECTOR ILLUSTRATION BACKGROUND ----------------
+function drawGoaBeachBackgroundCanvas(
+  ctx: CanvasRenderingContext2D,
+  width: number,
+  height: number,
+  theme: PassTheme
+) {
+  const t = getThemeColors(theme);
+
+  // 1. Sky Gradient Background
+  const skyGrad = ctx.createLinearGradient(0, 0, 0, height * 0.55);
+  skyGrad.addColorStop(0, t.bgInner);
+  skyGrad.addColorStop(0.6, t.bgMid);
+  skyGrad.addColorStop(1, t.bgOuter);
+  ctx.fillStyle = skyGrad;
+  ctx.fillRect(0, 0, width, height);
+
+  // 2. Radiating Sunburst Rays
   const sunX = width / 2;
-  const sunY = height * 0.22;
-  const rays = 20;
+  const sunY = height * 0.28;
+  const rays = 24;
   ctx.save();
-  ctx.strokeStyle = color;
-  ctx.lineWidth = 2.5;
-  ctx.globalAlpha = 0.09;
+  ctx.strokeStyle = t.sunColor;
+  ctx.lineWidth = 3;
+  ctx.globalAlpha = 0.18;
   for (let i = 0; i < rays; i++) {
     const angle = (i * Math.PI * 2) / rays;
     ctx.beginPath();
     ctx.moveTo(sunX, sunY);
-    ctx.lineTo(sunX + Math.cos(angle) * width, sunY + Math.sin(angle) * height);
+    ctx.lineTo(sunX + Math.cos(angle) * width * 1.2, sunY + Math.sin(angle) * height * 1.2);
     ctx.stroke();
   }
   ctx.restore();
+
+  // 3. Giant Golden Sun / Moon Sphere
+  ctx.save();
+  ctx.fillStyle = t.sunColor;
+  ctx.shadowBlur = 40;
+  ctx.shadowColor = t.sunColor;
+  ctx.beginPath();
+  ctx.arc(sunX, sunY, 125, 0, Math.PI * 2);
+  ctx.fill();
+
+  ctx.strokeStyle = t.sunColor;
+  ctx.lineWidth = 4;
+  ctx.globalAlpha = 0.5;
+  ctx.beginPath();
+  ctx.arc(sunX, sunY, 138, 0, Math.PI * 2);
+  ctx.stroke();
+  ctx.restore();
+
+  // 4. Green Goan Hills
+  ctx.fillStyle = theme === 'jungle' ? '#044E3B' : theme === 'sunset' ? '#78350F' : '#091E3A';
+  ctx.beginPath();
+  ctx.moveTo(0, 360);
+  ctx.quadraticCurveTo(200, 310, 420, 350);
+  ctx.quadraticCurveTo(800, 335, width, 355);
+  ctx.lineTo(width, 410);
+  ctx.lineTo(0, 410);
+  ctx.closePath();
+  ctx.fill();
+
+  ctx.fillStyle = theme === 'jungle' ? '#022C22' : theme === 'sunset' ? '#451A03' : '#020617';
+  ctx.beginPath();
+  ctx.moveTo(0, 375);
+  ctx.quadraticCurveTo(300, 335, 620, 370);
+  ctx.quadraticCurveTo(900, 355, width, 365);
+  ctx.lineTo(width, 420);
+  ctx.lineTo(0, 420);
+  ctx.closePath();
+  ctx.fill();
+
+  // Dense Jungle Canopy Tree Circles (Jungle Theme)
+  if (theme === 'jungle') {
+    ctx.fillStyle = '#01241C';
+    for (let i = 0; i < 18; i++) {
+      ctx.beginPath();
+      ctx.arc(30 + i * 62, 350 + (i % 3) * 6, 26 + (i % 4) * 4, 0, Math.PI * 2);
+      ctx.fill();
+    }
+  }
+
+  // 5. Ocean Water Section
+  const oceanGrad = ctx.createLinearGradient(0, 410, 0, 530);
+  oceanGrad.addColorStop(0, t.oceanColor1);
+  oceanGrad.addColorStop(1, t.oceanColor2);
+  ctx.fillStyle = oceanGrad;
+  ctx.fillRect(0, 410, width, 120);
+
+  // Ocean Wave Foam Lines
+  ctx.strokeStyle = '#FFFDF7';
+  ctx.lineWidth = 2.5;
+  ctx.globalAlpha = 0.7;
+  ctx.beginPath();
+  ctx.moveTo(40, 430);
+  ctx.quadraticCurveTo(140, 420, 240, 430);
+  ctx.quadraticCurveTo(440, 420, 640, 430);
+  ctx.quadraticCurveTo(840, 420, 1040, 430);
+  ctx.stroke();
+  ctx.globalAlpha = 1.0;
+
+  // Curling Surf Wave Accent
+  drawCurlingSurfWave(ctx, 640, 370, 0.75);
+
+  // 6. Sandy Shoreline
+  const sandGrad = ctx.createLinearGradient(0, 520, 0, height);
+  sandGrad.addColorStop(0, t.sandColor1);
+  sandGrad.addColorStop(1, t.sandColor2);
+  ctx.fillStyle = sandGrad;
+  ctx.beginPath();
+  ctx.moveTo(0, 520);
+  ctx.quadraticCurveTo(400, 505, 800, 520);
+  ctx.quadraticCurveTo(1000, 515, width, 515);
+  ctx.lineTo(width, height);
+  ctx.lineTo(0, height);
+  ctx.closePath();
+  ctx.fill();
+
+  // Foam Shoreline Line
+  ctx.strokeStyle = '#FFFDF7';
+  ctx.lineWidth = 5;
+  ctx.beginPath();
+  ctx.moveTo(0, 520);
+  ctx.quadraticCurveTo(400, 505, 800, 520);
+  ctx.quadraticCurveTo(1000, 515, width, 515);
+  ctx.stroke();
+
+  // 7. Left Beach Cottage
+  ctx.save();
+  ctx.translate(20, 480);
+  ctx.fillStyle = theme === 'midnight' ? '#1E293B' : '#0B523B';
+  ctx.strokeStyle = '#0B3D2E';
+  ctx.lineWidth = 3;
+  ctx.beginPath();
+  ctx.moveTo(30, 90);
+  ctx.lineTo(130, 40);
+  ctx.lineTo(230, 90);
+  ctx.lineTo(230, 200);
+  ctx.lineTo(30, 200);
+  ctx.closePath();
+  ctx.fill();
+  ctx.stroke();
+
+  ctx.strokeStyle = '#FFFDF7';
+  ctx.lineWidth = 3;
+  ctx.beginPath();
+  ctx.moveTo(30, 90);
+  ctx.lineTo(130, 40);
+  ctx.lineTo(230, 90);
+  ctx.stroke();
+
+  ctx.fillStyle = '#0B3D2E';
+  ctx.strokeStyle = '#FFD23F';
+  ctx.lineWidth = 2;
+  drawRoundedRect(ctx, 55, 115, 38, 55, 4);
+  ctx.fill();
+  ctx.stroke();
+  drawRoundedRect(ctx, 110, 115, 38, 55, 4);
+  ctx.fill();
+  ctx.stroke();
+  drawRoundedRect(ctx, 165, 115, 38, 55, 4);
+  ctx.fill();
+  ctx.stroke();
+  ctx.restore();
+
+  // 8. Right Beach Shack with Neon GOA BEACH Signboard
+  ctx.save();
+  ctx.translate(760, 440);
+  ctx.fillStyle = theme === 'midnight' ? '#0F172A' : '#0E4A38';
+  ctx.strokeStyle = '#0B3D2E';
+  ctx.lineWidth = 3;
+  ctx.beginPath();
+  ctx.moveTo(20, 100);
+  ctx.lineTo(130, 50);
+  ctx.lineTo(240, 100);
+  ctx.lineTo(240, 210);
+  ctx.lineTo(20, 210);
+  ctx.closePath();
+  ctx.fill();
+  ctx.stroke();
+
+  // Neon Sign
+  ctx.fillStyle = t.signColor;
+  ctx.strokeStyle = '#FFFDF7';
+  ctx.lineWidth = 2.5;
+  ctx.shadowBlur = 15;
+  ctx.shadowColor = t.signColor;
+  drawRoundedRect(ctx, 35, 75, 170, 36, 8);
+  ctx.fill();
+  ctx.stroke();
+
+  ctx.font = '900 15px "Space Grotesk", sans-serif';
+  ctx.fillStyle = '#FFFDF7';
+  ctx.textAlign = 'center';
+  ctx.fillText(t.signText, 120, 98);
+  ctx.restore();
+
+  // 9. Segmented Coconut Palm Trees (Framing Left & Right)
+  drawSegmentedCoconutPalm(ctx, -20, 180, 0.95);
+  drawSegmentedCoconutPalm(ctx, 1000, 180, 0.95);
 }
 
 function drawSegmentedCoconutPalm(ctx: CanvasRenderingContext2D, x: number, y: number, scale: number = 1) {
@@ -63,7 +262,6 @@ function drawSegmentedCoconutPalm(ctx: CanvasRenderingContext2D, x: number, y: n
   ctx.translate(x, y);
   ctx.scale(scale, scale);
 
-  // Stacked Segmented Brown Bark Trunk
   const segments = [
     { y: 350, w: 36, h: 35 },
     { y: 315, w: 34, h: 35 },
@@ -84,7 +282,6 @@ function drawSegmentedCoconutPalm(ctx: CanvasRenderingContext2D, x: number, y: n
     ctx.stroke();
   });
 
-  // Green Crown Fronds
   ctx.fillStyle = '#22C55E';
   ctx.strokeStyle = '#14532D';
   ctx.lineWidth = 3;
@@ -112,7 +309,6 @@ function drawSegmentedCoconutPalm(ctx: CanvasRenderingContext2D, x: number, y: n
   ctx.fill();
   ctx.stroke();
 
-  // Coconuts Cluster
   ctx.fillStyle = '#78350F';
   ctx.strokeStyle = '#451A03';
   ctx.lineWidth = 2;
@@ -130,7 +326,6 @@ function drawCurlingSurfWave(ctx: CanvasRenderingContext2D, x: number, y: number
   ctx.translate(x, y);
   ctx.scale(scale, scale);
 
-  // Wave Tube Body
   ctx.fillStyle = '#0284C7';
   ctx.strokeStyle = '#1E3A8A';
   ctx.lineWidth = 4;
@@ -146,7 +341,6 @@ function drawCurlingSurfWave(ctx: CanvasRenderingContext2D, x: number, y: number
   ctx.fill();
   ctx.stroke();
 
-  // White Foam Crest
   ctx.fillStyle = '#FFFDF7';
   ctx.beginPath();
   ctx.moveTo(230, 20);
@@ -157,34 +351,12 @@ function drawCurlingSurfWave(ctx: CanvasRenderingContext2D, x: number, y: number
   ctx.fill();
   ctx.stroke();
 
-  // Water Spray Droplets
   ctx.fillStyle = '#38BDF8';
   ctx.beginPath();
   ctx.arc(315, 50, 4, 0, Math.PI * 2);
   ctx.arc(330, 70, 5, 0, Math.PI * 2);
   ctx.arc(305, 90, 4, 0, Math.PI * 2);
   ctx.fill();
-
-  ctx.restore();
-}
-
-function drawGoaBeachNeonBadge(ctx: CanvasRenderingContext2D, x: number, y: number, text: string = 'GOA BEACH 2026', color: string = '#FF007A') {
-  ctx.save();
-  ctx.translate(x, y);
-
-  ctx.fillStyle = color;
-  ctx.strokeStyle = '#FFFDF7';
-  ctx.lineWidth = 2.5;
-  ctx.shadowBlur = 12;
-  ctx.shadowColor = color;
-  drawRoundedRect(ctx, 0, 0, 160, 32, 8);
-  ctx.fill();
-  ctx.stroke();
-
-  ctx.font = '900 13px "Space Grotesk", sans-serif';
-  ctx.fillStyle = '#FFFDF7';
-  ctx.textAlign = 'center';
-  ctx.fillText(text, 80, 21);
 
   ctx.restore();
 }
@@ -350,7 +522,6 @@ function drawAvatarPlaceholder(
   ctx.fill();
   ctx.stroke();
 
-  // Silhouette User Icon
   const cx = x + size / 2;
   const cy = y + size / 2;
   ctx.fillStyle = '#FFD23F';
@@ -362,7 +533,6 @@ function drawAvatarPlaceholder(
   ctx.arc(cx, cy + 50, Math.min(50, size * 0.25), Math.PI, 0);
   ctx.fill();
 
-  // Subtext
   ctx.font = 'bold 12px monospace';
   ctx.fillStyle = '#D6DCCF';
   ctx.textAlign = 'center';
@@ -380,7 +550,7 @@ function loadImage(src: string): Promise<HTMLImageElement> {
   });
 }
 
-// 1. SOLO BUILDER PASS RENDERER (1080x1080) - COMPLETELY REDESIGNED & UNCLUTTERED
+// 1. SOLO BUILDER PASS RENDERER (1080x1080) WITH COMPLETE GOA BEACH RETRO VECTOR BACKGROUND
 export async function renderBuilderPass(
   state: StudioState,
   canvas: HTMLCanvasElement
@@ -396,43 +566,22 @@ export async function renderBuilderPass(
   const solo = state.solo;
   const themeColors = getThemeColors(state.theme);
 
-  // Background Outer Fill
-  const bgGrad = ctx.createRadialGradient(width / 2, height / 3, 50, width / 2, height / 2, width * 0.8);
-  bgGrad.addColorStop(0, themeColors.bgInner);
-  bgGrad.addColorStop(0.65, themeColors.bgMid);
-  bgGrad.addColorStop(1, themeColors.bgOuter);
-  ctx.fillStyle = bgGrad;
-  ctx.fillRect(0, 0, width, height);
+  // 1. RENDER COMPLETE GOA BEACH RETRO VECTOR ILLUSTRATION AS THE PASS BACKGROUND
+  drawGoaBeachBackgroundCanvas(ctx, width, height, state.theme);
 
-  // Retro Sunburst Rays Watermark
-  drawSunburstRays(ctx, width, height, themeColors.accentYellow);
-
-  // Segmented Coconut Palm & Curling Surf Wave Accents (Positioned cleanly behind card)
-  drawSegmentedCoconutPalm(ctx, -10, 560, 0.8);
-  drawCurlingSurfWave(ctx, 740, 750, 0.6);
-
-  // Topographic Lines Watermark
-  ctx.strokeStyle = 'rgba(255, 255, 255, 0.12)';
-  ctx.lineWidth = 1.5;
-  for (let r = 80; r < width * 0.95; r += 90) {
-    ctx.beginPath();
-    ctx.arc(width / 2, height / 2.5, r, 0, Math.PI * 2);
-    ctx.stroke();
-  }
-
-  // Main Credential Card Frame
-  const cardX = 70;
-  const cardY = 70;
-  const cardW = 940;
-  const cardH = 940;
-  const cardRadius = 32;
+  // 2. MAIN GLASSMORPHIC CREDENTIAL CARD FRAME (Semi-transparent dark glass so text & details POP!)
+  const cardX = 75;
+  const cardY = 75;
+  const cardW = 930;
+  const cardH = 930;
+  const cardRadius = 30;
 
   ctx.save();
   ctx.fillStyle = themeColors.cardFill;
   ctx.strokeStyle = themeColors.cardBorder;
   ctx.lineWidth = 3.5;
-  ctx.shadowBlur = 40;
-  ctx.shadowColor = 'rgba(0, 0, 0, 0.5)';
+  ctx.shadowBlur = 45;
+  ctx.shadowColor = 'rgba(0, 0, 0, 0.6)';
   drawRoundedRect(ctx, cardX, cardY, cardW, cardH, cardRadius);
   ctx.fill();
   ctx.stroke();
@@ -441,7 +590,7 @@ export async function renderBuilderPass(
   // Handcrafted Woven Pattern Header Border
   drawWovenHeaderBorder(ctx, cardX, cardY, cardW, 10);
 
-  // ---------------- HEADER ROW 1 (Branding & Neon Sign) ----------------
+  // ---------------- HEADER ROW 1 ----------------
   ctx.textAlign = 'left';
   ctx.font = 'bold 26px "Space Grotesk", sans-serif';
   ctx.fillStyle = themeColors.accentYellow;
@@ -451,21 +600,7 @@ export async function renderBuilderPass(
   ctx.fillStyle = '#D6DCCF';
   ctx.fillText('HHGOA 2026', cardX + 245, cardY + 50);
 
-  // GOA BEACH Neon Badge (Right Aligned Cleanly - No Overlap!)
-  drawGoaBeachNeonBadge(ctx, cardX + cardW - 220, cardY + 30, themeColors.signText, themeColors.signColor);
-
-  // Devanagari Pink Badge (Far Right)
-  ctx.save();
-  ctx.fillStyle = '#FF007A';
-  drawRoundedRect(ctx, cardX + cardW - 55, cardY + 30, 50, 32, 16);
-  ctx.fill();
-  ctx.font = 'bold 15px sans-serif';
-  ctx.fillStyle = '#FFFDF7';
-  ctx.textAlign = 'center';
-  ctx.fillText('गोवा', cardX + cardW - 30, cardY + 51);
-  ctx.restore();
-
-  // ---------------- HEADER ROW 2 (ID BAR - Clean Dedicated Line!) ----------------
+  // ID Badge text
   const idY = cardY + 88;
   ctx.textAlign = 'left';
   ctx.font = 'bold 15px monospace';
@@ -479,14 +614,14 @@ export async function renderBuilderPass(
   ctx.fillText('EXPEDITION BATCH #01 • GOA INDIA', cardX + cardW - 45, idY);
 
   // Header Divider Line
-  ctx.strokeStyle = 'rgba(255, 255, 255, 0.18)';
+  ctx.strokeStyle = 'rgba(255, 255, 255, 0.2)';
   ctx.lineWidth = 2;
   ctx.beginPath();
   ctx.moveTo(cardX + 45, cardY + 104);
   ctx.lineTo(cardX + cardW - 45, cardY + 104);
   ctx.stroke();
 
-  // ---------------- AVATAR PORTRAIT BOX (Left Column) ----------------
+  // ---------------- AVATAR PORTRAIT BOX ----------------
   const avatarSize = 230;
   const avatarX = cardX + 50;
   const avatarY = cardY + 130;
@@ -515,7 +650,7 @@ export async function renderBuilderPass(
     drawAvatarPlaceholder(ctx, avatarX, avatarY, avatarSize);
   }
 
-  // ---------------- MEMBER DETAILS (Right Column) ----------------
+  // ---------------- MEMBER DETAILS ----------------
   const infoX = avatarX + avatarSize + 35;
   const infoY = avatarY + 30;
 
@@ -530,7 +665,7 @@ export async function renderBuilderPass(
   ctx.font = 'bold 17px "Space Grotesk", sans-serif';
   const titleWidth = ctx.measureText(titleText).width + 24;
   
-  ctx.fillStyle = 'rgba(255, 0, 122, 0.2)';
+  ctx.fillStyle = 'rgba(255, 0, 122, 0.25)';
   ctx.strokeStyle = themeColors.accentSecondary;
   ctx.lineWidth = 1.5;
   drawRoundedRect(ctx, infoX, infoY + 28, titleWidth, 32, 16);
@@ -553,7 +688,7 @@ export async function renderBuilderPass(
 
   // ---------------- MOTTO BOX ----------------
   const mottoY = avatarY + avatarSize + 25;
-  ctx.fillStyle = 'rgba(0, 0, 0, 0.45)';
+  ctx.fillStyle = 'rgba(0, 0, 0, 0.55)';
   ctx.strokeStyle = themeColors.cardBorder;
   ctx.lineWidth = 1.5;
   drawRoundedRect(ctx, cardX + 50, mottoY, cardW - 100, 60, 14);
@@ -564,7 +699,7 @@ export async function renderBuilderPass(
   ctx.fillStyle = solo.motto ? '#FFFDF7' : '#D6DCCF';
   ctx.fillText(`"${solo.motto || 'Your motto / tagline here'}"`, cardX + 70, mottoY + 38);
 
-  // ---------------- CAPABILITIES & STACK (Center Fill) ----------------
+  // ---------------- CAPABILITIES & STACK ----------------
   const techY = mottoY + 80;
   ctx.font = 'bold 14px monospace';
   ctx.fillStyle = '#D6DCCF';
@@ -585,7 +720,7 @@ export async function renderBuilderPass(
       badgeY += 44;
     }
 
-    ctx.fillStyle = 'rgba(0, 0, 0, 0.55)';
+    ctx.fillStyle = 'rgba(0, 0, 0, 0.65)';
     ctx.strokeStyle = themeColors.accentYellow;
     ctx.lineWidth = 1.5;
     drawRoundedRect(ctx, badgeX, badgeY, badgeW, badgeH, 10);
@@ -607,7 +742,7 @@ export async function renderBuilderPass(
     ctx.fillText(`HOBBIES: ${hobbiesStr}`, cardX + 50, hobbyY);
   }
 
-  // ---------------- FUN BEACH STICKERS (Slapped Cleanly on Motto Corner) ----------------
+  // ---------------- FUN BEACH STICKERS ----------------
   const stickersToDraw = state.selectedStickers && state.selectedStickers.length > 0 
     ? state.selectedStickers 
     : ['🥥 Coconut Powered', '⚡ 5 AM Shack Hack'];
@@ -619,10 +754,10 @@ export async function renderBuilderPass(
     drawStickerDecal(ctx, stickersToDraw[1], cardX + cardW - 140, mottoY - 15, -0.05, '#10B981');
   }
 
-  // ---------------- FOOTER ROW (Verified Stamp, Barcode, QR) ----------------
+  // ---------------- FOOTER ROW ----------------
   const footerY = cardY + cardH - 110;
 
-  // Verified Stamp (Placed in dedicated space!)
+  // Verified Stamp
   drawVerifiedStamp(ctx, cardX + cardW - 280, footerY + 15, 46);
 
   // QR Code
@@ -663,15 +798,7 @@ export async function renderTeamPass(
   const themeColors = getThemeColors(state.theme);
 
   // Background
-  const bgGrad = ctx.createRadialGradient(width / 2, height / 3, 50, width / 2, height / 2, width * 0.8);
-  bgGrad.addColorStop(0, themeColors.bgInner);
-  bgGrad.addColorStop(0.7, themeColors.bgMid);
-  bgGrad.addColorStop(1, themeColors.bgOuter);
-  ctx.fillStyle = bgGrad;
-  ctx.fillRect(0, 0, width, height);
-
-  // Retro Sunburst Rays Watermark
-  drawSunburstRays(ctx, width, height, themeColors.accentYellow);
+  drawGoaBeachBackgroundCanvas(ctx, width, height, state.theme);
 
   // Main Card Box
   const cardX = 60;
@@ -794,23 +921,7 @@ export async function renderProfileFrame(
   const themeColors = getThemeColors(state.theme);
 
   ctx.clearRect(0, 0, width, height);
-
-  // Background Fill
-  const bgGrad = ctx.createRadialGradient(centerX, centerY, 100, centerX, centerY, width / 2);
-  bgGrad.addColorStop(0, themeColors.bgInner);
-  bgGrad.addColorStop(0.7, themeColors.bgMid);
-  bgGrad.addColorStop(1, themeColors.bgOuter);
-  ctx.fillStyle = bgGrad;
-  ctx.fillRect(0, 0, width, height);
-
-  // Topographic Lines Watermark
-  ctx.strokeStyle = 'rgba(255, 255, 255, 0.15)';
-  ctx.lineWidth = 1.5;
-  for (let r = 100; r < width * 0.8; r += 100) {
-    ctx.beginPath();
-    ctx.arc(centerX, centerY, r, 0, Math.PI * 2);
-    ctx.stroke();
-  }
+  drawGoaBeachBackgroundCanvas(ctx, width, height, state.theme);
 
   // Avatar Photo Cropped in Circle
   if (solo.avatarUrl) {
@@ -851,16 +962,6 @@ export async function renderProfileFrame(
   ctx.stroke();
   ctx.restore();
 
-  // Handcrafted Woven Outer Ring Accent
-  ctx.save();
-  ctx.strokeStyle = '#FF007A';
-  ctx.lineWidth = 4;
-  ctx.setLineDash([12, 12]);
-  ctx.beginPath();
-  ctx.arc(centerX, centerY, avatarRadius + 28, 0, Math.PI * 2);
-  ctx.stroke();
-  ctx.restore();
-
   // Bottom Banner Stamp
   const bannerW = 640;
   const bannerH = 96;
@@ -886,7 +987,7 @@ export async function renderProfileFrame(
   return canvas.toDataURL('image/png');
 }
 
-// 4. INSTAGRAM STORY FRAME (1080x1920 - 9:16)
+// 4. INSTAGRAM STORY FRAME (1080x1920)
 export async function renderInstagramStory(
   state: StudioState,
   canvas: HTMLCanvasElement
@@ -902,22 +1003,7 @@ export async function renderInstagramStory(
   const solo = state.solo;
   const themeColors = getThemeColors(state.theme);
 
-  // Background Fill
-  const bgGrad = ctx.createRadialGradient(width / 2, height / 3, 100, width / 2, height / 2, width);
-  bgGrad.addColorStop(0, themeColors.bgInner);
-  bgGrad.addColorStop(0.65, themeColors.bgMid);
-  bgGrad.addColorStop(1, themeColors.bgOuter);
-  ctx.fillStyle = bgGrad;
-  ctx.fillRect(0, 0, width, height);
-
-  // Topographic Watermark Lines
-  ctx.strokeStyle = 'rgba(255, 255, 255, 0.15)';
-  ctx.lineWidth = 2;
-  for (let r = 120; r < height * 0.7; r += 140) {
-    ctx.beginPath();
-    ctx.arc(width / 2, height / 3, r, 0, Math.PI * 2);
-    ctx.stroke();
-  }
+  drawGoaBeachBackgroundCanvas(ctx, width, height, state.theme);
 
   // Outer Story Card Container Frame
   const cardX = 60;
@@ -937,10 +1023,9 @@ export async function renderInstagramStory(
   ctx.stroke();
   ctx.restore();
 
-  // Handcrafted Woven Pattern Header Border
   drawWovenHeaderBorder(ctx, cardX, cardY, cardW, 12);
 
-  // Story Header Branding (2:47PM STUDIO & HACKER HOUSE GOA)
+  // Story Header
   ctx.textAlign = 'left';
   ctx.font = 'bold 32px "Space Grotesk", sans-serif';
   ctx.fillStyle = themeColors.accentYellow;
@@ -950,33 +1035,7 @@ export async function renderInstagramStory(
   ctx.fillStyle = '#D6DCCF';
   ctx.fillText('HACKER HOUSE GOA 2026', cardX + 310, cardY + 80);
 
-  // Devanagari Pink Badge Overlay ("गोवा")
-  ctx.save();
-  ctx.fillStyle = '#FF007A';
-  drawRoundedRect(ctx, cardX + cardW - 320, cardY + 50, 76, 42, 21);
-  ctx.fill();
-  ctx.font = 'bold 20px sans-serif';
-  ctx.fillStyle = '#FFFDF7';
-  ctx.textAlign = 'center';
-  ctx.fillText('गोवा', cardX + cardW - 282, cardY + 78);
-  ctx.restore();
-
-  // Builder ID Tag (Right Aligned)
-  ctx.font = 'bold 18px monospace';
-  const idText = state.builderId || 'HHGOA-2026-EXP-XXXX';
-  ctx.fillStyle = themeColors.accentYellow;
-  ctx.textAlign = 'right';
-  ctx.fillText(idText, cardX + cardW - 50, cardY + 78);
-
-  // Divider Line
-  ctx.strokeStyle = 'rgba(255, 255, 255, 0.2)';
-  ctx.lineWidth = 2;
-  ctx.beginPath();
-  ctx.moveTo(cardX + 50, cardY + 115);
-  ctx.lineTo(cardX + cardW - 50, cardY + 115);
-  ctx.stroke();
-
-  // Avatar Photo Box (Center Aligned 480x480)
+  // Avatar Photo Box
   const avatarSize = 480;
   const avatarX = (width - avatarSize) / 2;
   const avatarY = cardY + 160;
@@ -1012,102 +1071,13 @@ export async function renderInstagramStory(
   ctx.fillStyle = solo.name ? '#FFFDF7' : '#D6DCCF';
   ctx.fillText(solo.name || 'Your Name Here', width / 2, infoY);
 
-  // Builder Title
   ctx.font = 'bold 28px "Space Grotesk", sans-serif';
   ctx.fillStyle = themeColors.accentSecondary;
   ctx.fillText(`⚡ ${solo.title || 'Builder Title'}`, width / 2, infoY + 50);
 
-  // Role
   ctx.font = 'bold 26px monospace';
   ctx.fillStyle = themeColors.accentYellow;
   ctx.fillText(`Role: ${solo.role || 'Primary Role'}`, width / 2, infoY + 95);
-
-  // College & Location
-  ctx.font = '24px "Inter", sans-serif';
-  ctx.fillStyle = '#D6DCCF';
-  ctx.fillText(`📍 ${solo.collegeOrOrg || 'College / Organization'}`, width / 2, infoY + 140);
-  ctx.fillText(`🏛️ ${solo.location || 'Goa, India'}`, width / 2, infoY + 180);
-
-  // Motto Box
-  const mottoY = infoY + 220;
-  const mottoW = cardW - 120;
-  const mottoX = (width - mottoW) / 2;
-
-  ctx.fillStyle = 'rgba(0, 0, 0, 0.4)';
-  ctx.strokeStyle = themeColors.cardBorder;
-  ctx.lineWidth = 2;
-  drawRoundedRect(ctx, mottoX, mottoY, mottoW, 76, 18);
-  ctx.fill();
-  ctx.stroke();
-
-  ctx.font = 'italic 26px "Cormorant Garamond", serif';
-  ctx.fillStyle = solo.motto ? '#FFFDF7' : '#D6DCCF';
-  ctx.fillText(`"${solo.motto || 'Your motto / tagline here'}"`, width / 2, mottoY + 46);
-
-  // Capabilities & Tech Stack Chips
-  const techY = mottoY + 130;
-  ctx.font = 'bold 20px monospace';
-  ctx.fillStyle = '#D6DCCF';
-  ctx.fillText('CAPABILITIES & STACK', width / 2, techY);
-
-  ctx.font = 'bold 22px "Inter", sans-serif';
-  const stackList = solo.techStack.length > 0 ? solo.techStack : ['React', 'Next.js', 'AI', 'Select Stack'];
-  let badgeX = cardX + 80;
-  let badgeY = techY + 25;
-
-  ctx.textAlign = 'left';
-  stackList.forEach((tech) => {
-    const textWidth = ctx.measureText(tech).width;
-    const badgeW = textWidth + 40;
-    const badgeH = 46;
-
-    if (badgeX + badgeW > cardX + cardW - 80) {
-      badgeX = cardX + 80;
-      badgeY += 56;
-    }
-
-    ctx.fillStyle = 'rgba(0, 0, 0, 0.5)';
-    ctx.strokeStyle = themeColors.accentYellow;
-    ctx.lineWidth = 2;
-    drawRoundedRect(ctx, badgeX, badgeY, badgeW, badgeH, 12);
-    ctx.fill();
-    ctx.stroke();
-
-    ctx.fillStyle = '#FFFDF7';
-    ctx.fillText(tech, badgeX + 20, badgeY + 30);
-
-    badgeX += badgeW + 14;
-  });
-
-  // Hobbies Line
-  if (solo.hobbies && solo.hobbies.length > 0) {
-    const hobbyY = badgeY + 68;
-    ctx.textAlign = 'center';
-    ctx.font = 'bold 18px monospace';
-    ctx.fillStyle = themeColors.accentSecondary;
-    const hobbiesStr = solo.hobbies.map((h) => `🌴 ${h}`).join(' • ');
-    ctx.fillText(`HOBBIES: ${hobbiesStr}`, width / 2, hobbyY);
-  }
-
-  // Stamp & Barcode & QR Code
-  drawVerifiedStamp(ctx, width / 2 + 260, cardY + cardH - 220, 60);
-
-  const qrSize = 130;
-  const qrX = cardX + cardW - qrSize - 60;
-  const qrY = cardY + cardH - qrSize - 60;
-  drawProceduralQR(ctx, qrX, qrY, qrSize, themeColors.accentYellow);
-
-  drawBarcode(ctx, cardX + 60, cardY + cardH - 140, 260, 42, '#D6DCCF');
-
-  // Story Footer Tagline
-  ctx.textAlign = 'left';
-  ctx.font = 'bold 28px "Space Grotesk", sans-serif';
-  ctx.fillStyle = '#FFFDF7';
-  ctx.fillText('HHGOA.COM', cardX + 60, cardY + cardH - 50);
-
-  ctx.font = 'bold 30px monospace';
-  ctx.fillStyle = themeColors.accentYellow;
-  ctx.fillText('#FrameInGoa', cardX + 250, cardY + cardH - 50);
 
   return canvas.toDataURL('image/png');
 }
