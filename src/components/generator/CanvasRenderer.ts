@@ -3,23 +3,27 @@ import { StudioState, SoloMember, TeamMember, PassTheme } from '@/types/builder'
 function getThemeColors(theme: PassTheme = 'jungle') {
   if (theme === 'sunset') {
     return {
-      bgInner: '#9A3412',
-      bgMid: '#6B21A8',
-      bgOuter: '#260B36',
-      cardFill: 'rgba(67, 24, 85, 0.94)',
-      cardBorder: '#802392',
+      bgInner: '#C2410C',
+      bgMid: '#7C2D12',
+      bgOuter: '#451A03',
+      cardFill: 'rgba(124, 45, 18, 0.94)',
+      cardBorder: '#FF4500',
       accentYellow: '#FFD23F',
       accentSecondary: '#FF007A',
+      signText: 'GOA SUNSET',
+      signColor: '#FF4500',
     };
   } else if (theme === 'midnight') {
     return {
-      bgInner: '#1E293B',
-      bgMid: '#0A2540',
-      bgOuter: '#020817',
-      cardFill: 'rgba(15, 30, 54, 0.95)',
-      cardBorder: '#1E40AF',
+      bgInner: '#1E1B4B',
+      bgMid: '#0F172A',
+      bgOuter: '#020617',
+      cardFill: 'rgba(15, 23, 42, 0.95)',
+      cardBorder: '#FF007A',
       accentYellow: '#38BDF8',
-      accentSecondary: '#FFD23F',
+      accentSecondary: '#FF007A',
+      signText: 'GOA NIGHT RAVE',
+      signColor: '#FF007A',
     };
   }
   // Default 'jungle'
@@ -30,7 +34,9 @@ function getThemeColors(theme: PassTheme = 'jungle') {
     cardFill: 'rgba(27, 67, 50, 0.94)',
     cardBorder: '#2E5A46',
     accentYellow: '#FFD23F',
-    accentSecondary: '#E8C547',
+    accentSecondary: '#10B981',
+    signText: 'GOA BEACH 2026',
+    signColor: '#FF007A',
   };
 }
 
@@ -100,25 +106,25 @@ function drawVectorPalmAccents(ctx: CanvasRenderingContext2D, width: number, hei
   ctx.restore();
 }
 
-function drawGoaBeachNeonBadge(ctx: CanvasRenderingContext2D, x: number, y: number) {
+function drawGoaBeachNeonBadge(ctx: CanvasRenderingContext2D, x: number, y: number, text: string = 'GOA BEACH 2026', color: string = '#FF007A') {
   ctx.save();
   ctx.translate(x, y);
 
-  // Pink Sign Box
-  ctx.fillStyle = '#FF007A';
+  // Dynamic Neon Sign Box
+  ctx.fillStyle = color;
   ctx.strokeStyle = '#FFFDF7';
   ctx.lineWidth = 3;
-  ctx.shadowBlur = 15;
-  ctx.shadowColor = '#FF007A';
-  drawRoundedRect(ctx, 0, 0, 160, 36, 8);
+  ctx.shadowBlur = 18;
+  ctx.shadowColor = color;
+  drawRoundedRect(ctx, 0, 0, 175, 36, 8);
   ctx.fill();
   ctx.stroke();
 
   // Text
-  ctx.font = '900 16px "Space Grotesk", sans-serif';
+  ctx.font = '900 15px "Space Grotesk", sans-serif';
   ctx.fillStyle = '#FFFDF7';
   ctx.textAlign = 'center';
-  ctx.fillText('GOA BEACH 2026', 80, 24);
+  ctx.fillText(text, 87.5, 24);
 
   ctx.restore();
 }
@@ -380,7 +386,7 @@ export async function renderBuilderPass(
   ctx.fillText('HHGOA 2026', cardX + 270, cardY + 65);
 
   // Pink GOA BEACH Neon Signboard Badge
-  drawGoaBeachNeonBadge(ctx, cardX + cardW - 350, cardY + 36);
+  drawGoaBeachNeonBadge(ctx, cardX + cardW - 365, cardY + 36, themeColors.signText, themeColors.signColor);
 
   // Devanagari Pink Badge Overlay
   ctx.save();
